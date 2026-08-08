@@ -1,1 +1,32 @@
 INTERNSHIP DS WORK
+
+DecodeLabs Data Science Internship - project work.
+
+## Project 2: Fraud Detection Pipeline (Supervised Learning)
+
+Notebook: project2.ipynb
+
+Builds a leak-free classification pipeline for the Kaggle credit card
+fraud dataset (284,807 transactions, 0.17% fraud) using SMOTE inside
+imblearn.pipeline.Pipeline, 5-fold StratifiedKFold GridSearchCV, and
+Precision/Recall/ROC-AUC evaluation on an untouched test set (no
+Accuracy metric, per assignment spec). SMOTE and scaling are applied
+only within each training fold, never before the train/test split.
+
+- Logistic Regression: tuned and evaluated successfully.
+  Best CV ROC-AUC: 0.9816 (C=0.01, smote__k_neighbors=3).
+- Random Forest: the pipeline and GridSearchCV are implemented
+  correctly (no data leakage, no scaler on the tree model, 5-fold CV,
+  preprocessing tuned jointly with the model), but the hyperparameter
+  search could not be completed on the available hardware. SMOTE
+  balances each training fold to the majority class, which for this
+  dataset means fitting on several hundred thousand rows per fit; even
+  a single shallow tree took multiple seconds to fit. The full grid
+  search still did not finish in a practical amount of time after
+  removing nested parallelism, bounding max_depth, fixing
+  smote__k_neighbors to a single value, and tuning on a 40k-row
+  stratified subsample instead of the full ~227k-row training set.
+  No Random Forest results are reported in this submission - this is
+  a compute constraint, not a gap in the modeling approach. The RF
+  cells are left in the notebook as implemented and would complete
+  given stronger hardware (more CPU cores) or a smaller search budget.
